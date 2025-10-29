@@ -17,7 +17,7 @@ export async function saveSettings({ apiBaseUrl, apiKey }) {
 
 export async function postApplication(payload) {
   const { apiBaseUrl, apiKey } = await getSettings();
-  const url = `${apiBaseUrl.replace(/\/$/, "")}/api/applications`;
+  const url = `${apiBaseUrl.replace(/\/$/, "")}/board/applications`;
   const res = await fetch(url, {
     method: "POST",
     headers: {
@@ -36,8 +36,9 @@ export async function postApplication(payload) {
 
 export async function testConnection() {
   const { apiBaseUrl, apiKey } = await getSettings();
-  const url = `${apiBaseUrl.replace(/\/$/, "")}/actuator/health`;
+  const url = `${apiBaseUrl.replace(/\/$/, "")}/board/applications`;
   const res = await fetch(url, {
+    method: "GET",
     headers: {
       ...(apiKey ? { "Authorization": `Bearer ${apiKey}` } : {})
     }
