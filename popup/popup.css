@@ -1,0 +1,61 @@
+.container {
+  width: 340px;
+  padding: 16px;
+  font-family: -apple-system, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+}
+
+.field {
+  margin-bottom: 10px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.field input[type="text"],
+.field input[type="url"],
+.field input[type="date"],
+.field select,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 12px;
+}
+
+.field.checkbox label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions button {
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.status {
+  font-size: 12px;
+}
+
+.links {
+  margin-top: 8px;
+}
+
+.links a {
+  font-size: 12px;
+}

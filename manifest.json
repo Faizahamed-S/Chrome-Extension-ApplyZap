@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "ApplyZap – Job Tracker",
+  "version": "0.1.0",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Add Job Application"
+  },
+  "options_page": "options/options.html",
+  "background": {
+    "service_worker": "background/background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
