@@ -1,61 +1,148 @@
-.container {
-  width: 340px;
-  padding: 16px;
+:root {
+  --bg: #f7f7fb;
+  --panel: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --border: #e6e8f0;
+  --ring: #4f46e5;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --success: #059669;
+  --warning: #b45309;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
   font-family: -apple-system, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
-h1 {
-  margin: 0 0 12px 0;
-  font-size: 16px;
+.container {
+  width: 360px;
+  padding: 12px;
 }
 
-.field {
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  padding: 14px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.field label {
-  display: block;
-  font-size: 12px;
-  margin-bottom: 4px;
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
 }
 
-.field input[type="text"],
-.field input[type="url"],
-.field input[type="date"],
-.field select,
-.field textarea {
+.settings-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.settings-link:hover {
+  color: var(--text);
+}
+
+.form {
+  display: grid;
+  gap: 10px;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.input,
+.select,
+.textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 10px;
   font-size: 12px;
+  color: var(--text);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 
-.field.checkbox label {
-  display: inline-flex;
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.checkbox {
+  display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 12px;
+  color: var(--text);
 }
 
 .actions {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
+  margin-top: 4px;
 }
 
-.actions button {
-  padding: 8px 12px;
+.btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 12px;
   font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
 }
 
 .status {
   font-size: 12px;
+  color: var(--muted);
 }
 
-.links {
-  margin-top: 8px;
+.status.ok {
+  color: var(--success);
 }
 
-.links a {
-  font-size: 12px;
+.status.warn {
+  color: var(--warning);
+}
+
+.group {
+  display: grid;
+  gap: 8px;
 }

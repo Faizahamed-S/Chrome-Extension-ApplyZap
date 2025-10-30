@@ -8,55 +8,65 @@
 </head>
 <body>
   <div class="container">
-    <h1>Add Application</h1>
-    <form id="application-form">
-      <div class="field">
-        <label for="companyName">Company Name *</label>
-        <input type="text" id="companyName" name="companyName" required>
+    <div class="card">
+      <div class="header">
+        <h1 class="title">Add Application</h1>
+        <a href="#" id="openOptions" class="settings-link">Settings</a>
       </div>
-      <div class="field">
-        <label for="roleName">Role Name *</label>
-        <input type="text" id="roleName" name="roleName" required>
-      </div>
-      <div class="field">
-        <label for="dateOfApplication">Date of Application</label>
-        <input type="date" id="dateOfApplication" name="dateOfApplication">
-      </div>
-      <div class="field">
-        <label for="jobLink">Job Link</label>
-        <input type="url" id="jobLink" name="jobLink" placeholder="https://...">
-      </div>
-      <div class="field checkbox">
-        <label>
-          <input type="checkbox" id="tailored" name="tailored"> Tailored
-        </label>
-      </div>
-      <div class="field">
-        <label for="jobDescription">Job Description</label>
-        <textarea id="jobDescription" name="jobDescription" rows="4" placeholder="Optional notes or description"></textarea>
-      </div>
-      <div class="field checkbox">
-        <label>
-          <input type="checkbox" id="referral" name="referral"> Referral
-        </label>
-      </div>
-      <div class="field">
-        <label for="status">Status</label>
-        <select id="status" name="status">
-          <option value="APPLIED">APPLIED</option>
-          <option value="REJECTED">REJECTED</option>
-          <option value="ONLINE_ASSESSMENT">ONLINE_ASSESSMENT</option>
-          <option value="INTERVIEW">INTERVIEW</option>
-          <option value="OFFER">OFFER</option>
-        </select>
-      </div>
-      <div class="actions">
-        <button type="submit" id="submitBtn">Save</button>
-        <span id="statusMsg" class="status"></span>
-      </div>
-    </form>
-    <div class="links">
-      <a href="#" id="openOptions">Settings</a>
+
+      <form id="application-form" class="form">
+        <div>
+          <label for="companyName" class="label">Company Name *</label>
+          <input type="text" id="companyName" name="companyName" class="input" required>
+        </div>
+
+        <div>
+          <label for="roleName" class="label">Role Name *</label>
+          <input type="text" id="roleName" name="roleName" class="input" required>
+        </div>
+
+        <div>
+          <label for="dateOfApplication" class="label">Date of Application</label>
+          <input type="date" id="dateOfApplication" name="dateOfApplication" class="input">
+        </div>
+
+        <div>
+          <label for="jobLink" class="label">Job Link</label>
+          <input type="url" id="jobLink" name="jobLink" class="input" placeholder="https://...">
+        </div>
+
+        <div class="group">
+          <label class="checkbox">
+            <input type="checkbox" id="tailored" name="tailored">
+            Tailored
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="referral" name="referral">
+            Referral
+          </label>
+        </div>
+
+        <div>
+          <label for="jobDescription" class="label">Job Description</label>
+          <textarea id="jobDescription" name="jobDescription" class="textarea" rows="4" placeholder="Optional notes or description"></textarea>
+        </div>
+
+        <div>
+          <label for="status" class="label">Status</label>
+          <select id="status" name="status" class="select">
+            <option value="APPLIED">APPLIED</option>
+            <option value="REJECTED">REJECTED</option>
+            <option value="ONLINE_ASSESSMENT">ONLINE_ASSESSMENT</option>
+            <option value="INTERVIEW">INTERVIEW</option>
+            <option value="OFFER">OFFER</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="submitBtn" class="btn btn-primary">Save</button>
+          <span id="statusMsg" class="status"></span>
+        </div>
+      </form>
     </div>
   </div>
   <script type="module" src="popup.js"></script>

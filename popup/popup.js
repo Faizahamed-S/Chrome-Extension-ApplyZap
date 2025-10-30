@@ -53,11 +53,12 @@ async function init() {
     // ignore autofill errors
   }
 
-  // Warn if settings missing
   try {
     const settings = await getSettings();
     if (!settings.apiBaseUrl || !settings.apiKey) {
       statusMsg.textContent = "Open Settings to configure API";
+      statusMsg.classList.remove("ok");
+      statusMsg.classList.add("warn");
     }
   } catch (e) {
     // ignore
@@ -66,9 +67,11 @@ async function init() {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     statusMsg.textContent = "";
+    statusMsg.classList.remove("ok", "warn");
 
     if (!companyName.value.trim() || !roleName.value.trim()) {
       statusMsg.textContent = "Company and Role are required";
+      statusMsg.classList.add("warn");
       return;
     }
 
@@ -91,8 +94,12 @@ async function init() {
     try {
       await postApplication(payload);
       statusMsg.textContent = "Saved";
+      statusMsg.classList.remove("warn");
+      statusMsg.classList.add("ok");
     } catch (err) {
       statusMsg.textContent = `Error: ${err?.message || "failed"}`;
+      statusMsg.classList.remove("ok");
+      statusMsg.classList.add("warn");
     } finally {
       btn.disabled = false;
       btn.textContent = prevText;
