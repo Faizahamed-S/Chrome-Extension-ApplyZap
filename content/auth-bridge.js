@@ -23,57 +23,75 @@ function findSupabaseToken() {
   return null;
 }
 
-async function syncTokenToExtension() {
+function syncToken() {
   const token = findSupabaseToken();
+  
   if (token) {
-    try {
-      await new Promise((resolve) => {
-        chrome.storage.sync.set({ applyZapToken: token }, () => {
-          console.log("Bridge: Token synced to extension");
-          resolve();
-        });
-      });
-    } catch (e) {
-      console.error('Bridge: Failed to save token to extension storage', e);
-    }
+    // Try to save the token
+    chrome.storage.sync.set({ applyZapToken: token }, () => {
+      if (chrome.runtime.lastError) {
+        const errorMsg = chrome.runtime.lastError.message || '';
+        // If context invalidated, just return (suppress the error)
+        if (errorMsg.toLowerCase().includes('context invalidated')) {
+          return;
+        }
+        // For other errors, log them
+        console.error('Bridge: Failed to save token to extension storage', chrome.runtime.lastError);
+        return;
+      }
+      console.log("Bridge: Token synced to extension");
+    });
   } else {
-    // Clear token if not found (user logged out)
-    try {
-      await new Promise((resolve) => {
-        chrome.storage.sync.remove('applyZapToken', () => resolve());
-      });
-    } catch (e) {
-      console.error('Bridge: Failed to clear token from extension storage', e);
-    }
+    // No token found - clear it from storage
+    chrome.storage.sync.remove('applyZapToken', () => {
+      if (chrome.runtime.lastError) {
+        const errorMsg = chrome.runtime.lastError.message || '';
+        // If context invalidated, just return (suppress the error)
+        if (errorMsg.toLowerCase().includes('context invalidated')) {
+          return;
+        }
+        // For other errors, log them
+        console.error('Bridge: Failed to clear token from extension storage', chrome.runtime.lastError);
+        return;
+      }
+    });
   }
 }
 
-// Track last synced token to detect changes
+// Track last synced token to only sync on changes
 let lastSyncedToken = null;
 
 // Sync token on initial page load
-syncTokenToExtension().then(() => {
-  lastSyncedToken = findSupabaseToken();
-});
+syncToken();
+lastSyncedToken = findSupabaseToken();
 
 // Monitor localStorage changes for token updates from other windows/tabs
 window.addEventListener('storage', (e) => {
   // Check if the changed key matches our pattern
   if (e.key && e.key.startsWith('sb-') && e.key.endsWith('-auth-token')) {
-    syncTokenToExtension().then(() => {
-      lastSyncedToken = findSupabaseToken();
-    });
+    syncToken();
+    lastSyncedToken = findSupabaseToken();
   }
 });
 
 // Poll for same-window token changes (since storage event only fires cross-window)
 // Check every 2 seconds for token updates
-setInterval(() => {
-  const currentToken = findSupabaseToken();
-  // Only sync if token has changed
-  if (currentToken !== lastSyncedToken) {
-    syncTokenToExtension().then(() => {
+let pollInterval = setInterval(() => {
+  try {
+    // Check if extension was reloaded/killed
+    if (!chrome.runtime || !chrome.runtime.id) {
+      clearInterval(pollInterval);
+      return;
+    }
+    
+    const currentToken = findSupabaseToken();
+    // Only sync if token has changed
+    if (currentToken !== lastSyncedToken) {
+      syncToken();
       lastSyncedToken = currentToken;
-    });
+    }
+  } catch (e) {
+    // If accessing chrome.runtime.id throws an error, extension is dead
+    clearInterval(pollInterval);
   }
 }, 2000);

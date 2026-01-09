@@ -20,6 +20,29 @@ function heuristicParseTitle(title) {
 }
 
 async function init() {
+  const welcomeScreen = document.getElementById("welcome-screen");
+  const formContainer = document.getElementById("form-container");
+  
+  // Check authentication status first
+  let token = null;
+  try {
+    token = await getAuthToken();
+  } catch (e) {
+    // ignore
+  }
+
+  if (!token) {
+    // Show welcome screen, hide form
+    welcomeScreen.classList.remove("hidden");
+    formContainer.classList.add("hidden");
+    return; // Early return - don't initialize form
+  }
+
+  // User is authenticated - show form, hide welcome screen
+  welcomeScreen.classList.add("hidden");
+  formContainer.classList.remove("hidden");
+
+  // Initialize form elements
   const form = document.getElementById("application-form");
   const companyName = document.getElementById("companyName");
   const roleName = document.getElementById("roleName");
@@ -31,11 +54,28 @@ async function init() {
   const status = document.getElementById("status");
   const statusMsg = document.getElementById("statusMsg");
   const openOptions = document.getElementById("openOptions");
+  const successView = document.getElementById("success-view");
+  const addAnotherBtn = document.getElementById("addAnotherBtn");
+  const closeSuccessBtn = document.getElementById("closeSuccessBtn");
 
-  openOptions.addEventListener("click", (e) => {
-    e.preventDefault();
-    openOptionsPage();
-  });
+  // Function to resize window height dynamically
+  function resizeWindow(height) {
+    document.body.style.height = `${height}px`;
+  }
+
+  // Set initial window height for form view
+  resizeWindow(600);
+
+  if (openOptions) {
+    openOptions.addEventListener("click", (e) => {
+      e.preventDefault();
+      try {
+        openOptionsPage();
+      } catch (err) {
+        console.error("Failed to open options page:", err);
+      }
+    });
+  }
 
   setTodayDate(dateOfApplication);
 
@@ -51,17 +91,6 @@ async function init() {
     }
   } catch (e) {
     // ignore autofill errors
-  }
-
-  try {
-    const token = await getAuthToken();
-    if (!token) {
-      statusMsg.innerHTML = 'Please <a href="https://applyzap-auth-buddy.lovable.app" target="_blank" style="color: inherit; text-decoration: underline;">log in at applyzap-auth-buddy.lovable.app</a> first';
-      statusMsg.classList.remove("ok");
-      statusMsg.classList.add("warn");
-    }
-  } catch (e) {
-    // ignore
   }
 
   form.addEventListener("submit", async (e) => {
@@ -93,9 +122,10 @@ async function init() {
 
     try {
       await postApplication(payload);
-      statusMsg.textContent = "Saved";
-      statusMsg.classList.remove("warn");
-      statusMsg.classList.add("ok");
+      // Show success view, hide form, resize window
+      successView.classList.remove("hidden");
+      formContainer.classList.add("hidden");
+      resizeWindow(300);
     } catch (err) {
       statusMsg.textContent = `Error: ${err?.message || "failed"}`;
       statusMsg.classList.remove("ok");
@@ -104,6 +134,38 @@ async function init() {
       btn.disabled = false;
       btn.textContent = prevText;
     }
+  });
+
+  // "Add Another" button handler
+  addAnotherBtn.addEventListener("click", async () => {
+    // Reset the form
+    form.reset();
+    
+    // Set date field to today
+    setTodayDate(dateOfApplication);
+    
+    // Try to refresh jobLink from current tab
+    try {
+      const tab = await getActiveTabInfo();
+      if (tab && tab.url) {
+        jobLink.value = tab.url;
+      }
+    } catch (e) {
+      // Keep empty if tab info unavailable
+    }
+
+    // Hide success view, show form, resize window
+    successView.classList.add("hidden");
+    formContainer.classList.remove("hidden");
+    resizeWindow(600);
+    
+    // Focus first input for quick entry
+    companyName.focus();
+  });
+
+  // "Close" button handler - close the extension popup
+  closeSuccessBtn.addEventListener("click", () => {
+    window.close();
   });
 }
 

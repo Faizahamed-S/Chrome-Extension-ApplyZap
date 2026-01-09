@@ -11,20 +11,30 @@
   --warning: #b45309;
 }
 
-html, body {
+html {
   margin: 0;
   padding: 0;
+  width: 360px;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  width: 360px;
+  min-height: 100px;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.3s ease;
 }
 
 .container {
-  width: 360px;
+  width: 100%;
   padding: 12px;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .card {
@@ -145,4 +155,81 @@ body {
 .group {
   display: grid;
   gap: 8px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.welcome-screen {
+  text-align: center;
+  padding: 40px 20px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.welcome-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.welcome-button {
+  margin-top: 8px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.success-view {
+  text-align: center;
+  padding: 40px 20px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-message {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  max-width: 200px;
+}
+
+.success-actions .btn {
+  width: 100%;
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: #d1d5db;
+  border-color: #d1d5db;
 }
