@@ -1,28 +1,42 @@
+// Production backend URL - hardcoded
+const API_BASE_URL = "https://tracker-backend-production-535d.up.railway.app";
+
+export async function getAuthToken() {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(["applyZapToken"], (result) => {
+      resolve(result.applyZapToken || null);
+    });
+  });
+}
+
 export async function getSettings() {
   return new Promise((resolve) => {
-    chrome.storage.sync.get(["apiBaseUrl", "apiKey"], (result) => {
+    chrome.storage.sync.get(["apiBaseUrl"], (result) => {
       resolve({
-        apiBaseUrl: result.apiBaseUrl || "http://localhost:8080",
-        apiKey: result.apiKey || ""
+        apiBaseUrl: result.apiBaseUrl || API_BASE_URL
       });
     });
   });
 }
 
-export async function saveSettings({ apiBaseUrl, apiKey }) {
+export async function saveSettings({ apiBaseUrl }) {
   return new Promise((resolve) => {
-    chrome.storage.sync.set({ apiBaseUrl, apiKey }, () => resolve());
+    chrome.storage.sync.set({ apiBaseUrl: apiBaseUrl || API_BASE_URL }, () => resolve());
   });
 }
 
 export async function postApplication(payload) {
-  const { apiBaseUrl, apiKey } = await getSettings();
-  const url = `${apiBaseUrl.replace(/\/$/, "")}/board/applications`;
+  const token = await getAuthToken();
+  if (!token) {
+    throw new Error("Please log in at applyzap-auth-buddy.lovable.app first.");
+  }
+  
+  const url = `${API_BASE_URL.replace(/\/$/, "")}/board/applications`;
   const res = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...(apiKey ? { "Authorization": `Bearer ${apiKey}` } : {})
+      "Authorization": `Bearer ${token}`
     },
     body: JSON.stringify(payload)
   });
@@ -35,12 +49,16 @@ export async function postApplication(payload) {
 }
 
 export async function testConnection() {
-  const { apiBaseUrl, apiKey } = await getSettings();
-  const url = `${apiBaseUrl.replace(/\/$/, "")}/board/applications`;
+  const token = await getAuthToken();
+  if (!token) {
+    throw new Error("Please log in at applyzap-auth-buddy.lovable.app first.");
+  }
+  
+  const url = `${API_BASE_URL.replace(/\/$/, "")}/board/applications`;
   const res = await fetch(url, {
     method: "GET",
     headers: {
-      ...(apiKey ? { "Authorization": `Bearer ${apiKey}` } : {})
+      "Authorization": `Bearer ${token}`
     }
   });
   if (!res.ok) {

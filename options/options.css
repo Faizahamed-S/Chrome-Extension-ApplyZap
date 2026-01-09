@@ -10,6 +10,16 @@ h1 {
   font-size: 20px;
 }
 
+h2 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+h3 {
+  margin: 24px 0 8px 0;
+  font-size: 14px;
+}
+
 .field {
   margin-bottom: 12px;
 }
@@ -42,4 +52,100 @@ h1 {
 
 .status {
   font-size: 13px;
+}
+
+.status.ok {
+  color: #059669;
+}
+
+.status.warn {
+  color: #dc2626;
+}
+
+.auth-status {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.status-indicator {
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.status-indicator.ok {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-indicator.warn {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.auth-details {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.auth-details p {
+  margin: 0 0 8px 0;
+}
+
+.auth-details small {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.auth-details a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.auth-details a:hover {
+  text-decoration: underline;
+}
+
+.info-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #eff6ff;
+  border-radius: 8px;
+  border-left: 3px solid #2563eb;
+}
+
+.info-section h3 {
+  margin-top: 0;
+  color: #1e40af;
+}
+
+.info-section p {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  color: #1e3a8a;
+  line-height: 1.5;
+}
+
+.info-section ol {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 13px;
+  color: #1e3a8a;
+  line-height: 1.8;
+}
+
+.info-section a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.info-section a:hover {
+  text-decoration: underline;
 }

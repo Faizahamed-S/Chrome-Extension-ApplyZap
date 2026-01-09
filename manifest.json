@@ -7,6 +7,13 @@
     "default_title": "Add Job Application"
   },
   "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://applyzap-auth-buddy.lovable.app/*"],
+      "js": ["content/auth-bridge.js"],
+      "run_at": "document_end"
+    }
+  ],
   "background": {
     "service_worker": "background/background.js",
     "type": "module"

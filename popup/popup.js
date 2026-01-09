@@ -1,6 +1,6 @@
 import { getActiveTabInfo, openOptionsPage } from "../shared/utils.js";
 import { buildApplicationPayload } from "../shared/schema.js";
-import { postApplication, getSettings } from "../shared/api.js";
+import { postApplication, getAuthToken } from "../shared/api.js";
 
 function setTodayDate(input) {
   const today = new Date();
@@ -54,9 +54,9 @@ async function init() {
   }
 
   try {
-    const settings = await getSettings();
-    if (!settings.apiBaseUrl || !settings.apiKey) {
-      statusMsg.textContent = "Open Settings to configure API";
+    const token = await getAuthToken();
+    if (!token) {
+      statusMsg.innerHTML = 'Please <a href="https://applyzap-auth-buddy.lovable.app" target="_blank" style="color: inherit; text-decoration: underline;">log in at applyzap-auth-buddy.lovable.app</a> first';
       statusMsg.classList.remove("ok");
       statusMsg.classList.add("warn");
     }

@@ -9,17 +9,27 @@
 <body>
   <div class="container">
     <h1>Settings</h1>
-    <div class="field">
-      <label for="apiBaseUrl">API Base URL</label>
-      <input type="url" id="apiBaseUrl" placeholder="http://localhost:8080">
+    
+    <div class="auth-status">
+      <h2>Authentication Status</h2>
+      <div id="authStatus" class="status-indicator">
+        <span id="authStatusText">Checking...</span>
+      </div>
+      <div id="authDetails" class="auth-details"></div>
     </div>
-    <div class="field">
-      <label for="apiKey">API Key (MVP)</label>
-      <input type="text" id="apiKey" placeholder="paste your API key">
+
+    <div class="info-section">
+      <h3>How It Works</h3>
+      <p>The extension automatically syncs your authentication token from the web app. No manual configuration needed!</p>
+      <ol>
+        <li>Log in at <a href="https://applyzap-auth-buddy.lovable.app" target="_blank">applyzap-auth-buddy.lovable.app</a></li>
+        <li>The extension will automatically detect and sync your session token</li>
+        <li>You're ready to track applications!</li>
+      </ol>
     </div>
+
     <div class="actions">
-      <button id="saveBtn">Save</button>
-      <button id="testBtn">Test</button>
+      <button id="testBtn">Test Connection</button>
       <span id="statusMsg" class="status"></span>
     </div>
   </div>
