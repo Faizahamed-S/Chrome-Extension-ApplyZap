@@ -20,9 +20,6 @@
   },
   "permissions": [
     "storage",
-    "tabs"
-  ],
-  "host_permissions": [
-    "<all_urls>"
+    "activeTab"
   ]
 }

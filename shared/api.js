@@ -67,7 +67,7 @@ export async function testConnection() {
   return true;
 }
 
-export async function getActiveTabInfo() {
+export async function getInfo() {
   return new Promise((resolve) => {
     try {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
